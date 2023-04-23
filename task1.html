@@ -16,7 +16,7 @@
 <body>
 <div class="container" style="margin-top: 1%;">
 
-<form action="#" onsubmit="register()" class="form-control">
+<form action="#"  class="form-control" id="my-form">
 
 <label for="Name"  class="form-label">Name:</label><br>
 <input type="text" id="Name" class="input-group"> <br> 
@@ -36,7 +36,7 @@
 <input type="time" id="time"        class="col" style="width:49%; margin-left:1%; margin-right: 1%; "> 
 
 <br>
-<input type="submit" value="Get a call" class="col-11"   style="width: 98%; margin: 1%; color: whitesmoke; background-color: orange; border-radius: 5px; padding: 0px;" >
+<input type="submit" value="Get a call" class="col-11" id="submit"  style="width: 98%; margin: 1%; color: whitesmoke; background-color: orange; border-radius: 5px; padding: 0px;" >
 </div>
 
 </form>
@@ -49,7 +49,8 @@
     
 
 
-<script>
+<script> 
+/*  onsubmit="register()"
     function register(){
         const name = document.getElementById('Name').value;
         const email = document.getElementById('mail').value;
@@ -57,7 +58,36 @@
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
         console.log(name, email, phone, date, time );
-    }
+    } 
+    */
+const myform = document.querySelector('#my-form');
+const myname = document.querySelector('#Name')
+
+myform.addEventListener('submit' , onSubmit);
+function onSubmit(e){
+    e.preventDefault();
+    console.log(myname);
+
+}
+
+myname.addEventListener('mouseover', mover);
+function mover(e){
+    e.preventDefault();
+    myname.style.height = "50px";
+
+}
+
+myname.addEventListener('mouseout', mout);
+function mout(e){
+    e.preventDefault();
+    myname.style.height = "100%";;
+
+}
+
+
+
+
+
 </script>
 
 
