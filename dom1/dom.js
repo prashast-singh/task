@@ -15,12 +15,20 @@ for(var i = 0 ; i< items.length ; i++){
     items[i].style.fontWeight = "bold";
 }
 */
-let tag = document.getElementsByTagName("li");
+   /*  let tag = document.getElementsByTagName("li");
 
-for(var i = 0 ; i< tag.length ; i++){
-    tag[i].style.fontWeight = "bold";
-    tag[i].style.backgroundColor = "grey";
+    for(var i = 0 ; i< tag.length ; i++){
+        tag[i].style.fontWeight = "bold";
+        tag[i].style.backgroundColor = "grey";
 
 
-}
+    } */
+
+let item = document.querySelectorAll('.list-group-item');
+
+item[1].style.color = "green";
+
+let odd = document.querySelectorAll('li:nth-child(odd)');
+for(let i =0; i<odd.length; i++)
+odd[i].style.backgroundColor = 'green';
 
