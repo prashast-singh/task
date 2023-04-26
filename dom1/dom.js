@@ -1,3 +1,4 @@
+/*
 document.getElementById("header-title").textContent = 'Hello';
 let title = document.getElementById("header-title");
 console.log(title)
@@ -13,3 +14,13 @@ items[2].style.backgroundColor = "green";
 for(var i = 0 ; i< items.length ; i++){
     items[i].style.fontWeight = "bold";
 }
+*/
+let tag = document.getElementsByTagName("li");
+
+for(var i = 0 ; i< tag.length ; i++){
+    tag[i].style.fontWeight = "bold";
+    tag[i].style.backgroundColor = "grey";
+
+
+}
+
