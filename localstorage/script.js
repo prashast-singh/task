@@ -1,6 +1,9 @@
 let form = document.getElementById('addForm');
+let list = document.getElementById('item');
 
 form.addEventListener('submit', addItem)
+list.addEventListener('click', removeItem)
+
 
 function addItem(e){
     e.preventDefault();
@@ -14,11 +17,36 @@ function addItem(e){
     
     localStorage.setItem(form.children[3].value, str);
 
-    let div =  document.createElement('div');
-        div.className = 'mt-2'
-    div.appendChild(document.createTextNode(form.children[1].value + " - " + form.children[3].value + " - " + form.children[5].value));
-     
-    console.log(div);
+    let li =  document.createElement('li');
 
-    form.appendChild(div);
+   let  btn = document.createElement('button');
+        btn.className = 'btn btn-danger btn-sm float-right delete';
+        btn.appendChild(document.createTextNode('Delete'));
+
+    let key = document.createElement('div');
+    key.style.display = 'none' ;
+    key.appendChild(document.createTextNode(form.children[3].value));
+    
+    li.appendChild(key);
+    li.appendChild(document.createTextNode(form.children[1].value +" - " + form.children[3].value + " - " + form.children[5].value));
+    li.appendChild(btn);
+    
+    list.appendChild(li);    
+};
+
+function removeItem(e){
+   
+    e.preventDefault();
+
+    if(e.target.classList.contains('delete')){
+ 
+        var li = e.target.parentElement;
+           
+        console.log(li.firstChild.textContent)
+         
+        localStorage.removeItem(li.firstChild.textContent)
+        
+        list.removeChild(li);
+    }
+
 }
