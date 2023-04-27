@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title >Item Lister</title>
+</head>
+<body>
+  <header id="main-header" class="bg-success text-white p-4 mb-3">
+      <h1>Store Details</h1>
+  </header>
+  <div class="container">
+   <div id="main" class="card card-body bg-light" style="width: 50%; margin-left:25%;">
+    
+    <form id="addForm" class="form-control-sm " >
+      
+        <label for="name" class="form-control-label" >Name:</label>
+        <input type="text" class="form-control ml-2" id="name">
+
+        <label for="email" class="form-control-label mt-2 ">Email: </label>
+        <input type="email" class="form-control ml-2" id="email">
+      
+         <input type="submit" class="btn btn-dark mt-2 ml-2" value="Submit">
+    </form>
+    
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
