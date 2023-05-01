@@ -1,25 +1,27 @@
-let form = document.getElementById('addForm');
+
+ let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 
-let li = document.querySelectorAll('li')
+
 
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
 
-
+let count = 0;
 function addItem(e){
     e.preventDefault();
 
     myObj = {
-    name: form.children[1].value,
-    Email : form.children[3].value,
-    Phone : form.children[5].value
+    Expense: form.children[1].value,
+    Description : form.children[3].value,
+    Category : form.children[5].value
     };
     let str = JSON.stringify(myObj);
     
-    localStorage.setItem(form.children[3].value, str);
+    localStorage.setItem(++count, str);
 
     let li =  document.createElement('li');
+    li.className = 'mb-2'
 
    let  btn = document.createElement('button');
         btn.className = 'btn btn-danger btn-sm float-right delete';
@@ -33,7 +35,7 @@ function addItem(e){
 
     let key = document.createElement('div');
     key.style.display = 'none' ;
-    key.appendChild(document.createTextNode(form.children[3].value));
+    key.appendChild(document.createTextNode(count));
 
 
     li.appendChild(key);
@@ -52,8 +54,8 @@ function removeItem(e){
  
         var li = e.target.parentElement;
            
-        console.log(li.firstChild.textContent)
-         
+       
+        console.log(li.firstChild.textContent) 
         localStorage.removeItem(li.firstChild.textContent)
         
         list.removeChild(li);
@@ -67,22 +69,23 @@ function edit(e){
 e.preventDefault();
 
 
-
-        var li = e.target.parentElement;
-
-        myobjj = JSON.parse(localStorage.getItem(li.firstChild.textContent))
-
-        console.log(myobjj.name)
-
-        document.getElementById("name").value = myobjj.name;
-        document.getElementById("email").value = myobjj.Email;
-        document.getElementById("phone").value = myobjj.Phone;
-
-
-         
-        localStorage.removeItem(li.firstChild.textContent)
+if(e.target.classList.contains('Edit')){
+        var lis = e.target.parentElement;
+            console.log(lis.firstChild.textContent)
         
-        list.removeChild(li);
+        myobjj = JSON.parse(localStorage.getItem(lis.firstChild.textContent))
+
+        
+
+        document.getElementById("expense").value = myobjj.Expense;
+        document.getElementById("description").value = myobjj.Description;
+        document.getElementById("category").value = myobjj.Category; 
+        localStorage.removeItem(lis.firstChild.textContent)
+        
+        list.removeChild(lis);}
 
 
-}
+} 
+
+
+ 
