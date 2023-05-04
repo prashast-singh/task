@@ -1,4 +1,4 @@
-
+/* 
  let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 
@@ -89,3 +89,21 @@ if(e.target.classList.contains('Edit')){
 
 
  
+ */
+
+console.log(printName());
+
+console.log(a);
+
+
+
+var a = 100;
+
+
+
+var printName = (name) => {
+
+console.log(name)
+
+}
+
