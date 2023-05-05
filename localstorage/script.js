@@ -1,49 +1,64 @@
-/* 
+
  let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 
-
-
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
+axios.get('https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
+ 
 
-let count = 0;
+function displaylist(obj){
+    console.log
+    Object.keys(obj).forEach(key => {
+       
+        let li =  document.createElement('li');
+        li.className = 'mb-2'
+    
+       let  btn = document.createElement('button');
+            btn.className = 'btn btn-danger btn-sm float-right delete';
+            btn.appendChild(document.createTextNode('Delete'));
+    
+    
+        let edtbtn = document.createElement('button');
+            edtbtn.className = 'btn btn-danger btn-sm float-right Edit';
+            edtbtn.appendChild(document.createTextNode('Edit'));
+    
+    
+        let ke = document.createElement('div');
+         ke.style.display = 'none' ; 
+        ke.appendChild(document.createTextNode(obj[key]._id));
+    
+    
+        li.appendChild(ke);
+        li.appendChild(document.createTextNode(obj[key].myObj.amount +" - " + obj[key].myObj.description + " - " + obj[key].myObj.category));
+        li.appendChild(btn);
+        li.appendChild(edtbtn)
+        
+        list.appendChild(li); 
+
+      });
+ 
+
+
+};
+
+
 function addItem(e){
     e.preventDefault();
+ 
+    
 
-    myObj = {
-    Expense: form.children[1].value,
-    Description : form.children[3].value,
-    Category : form.children[5].value
+     myObj = {
+    amount: form.children[1].value,
+    description : form.children[3].value,
+    category : form.children[5].value
     };
     let str = JSON.stringify(myObj);
+
+    console.log(str)
+    axios.post('https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
     
-    localStorage.setItem(++count, str);
-
-    let li =  document.createElement('li');
-    li.className = 'mb-2'
-
-   let  btn = document.createElement('button');
-        btn.className = 'btn btn-danger btn-sm float-right delete';
-        btn.appendChild(document.createTextNode('Delete'));
-
-
-    let edtbtn = document.createElement('button');
-        edtbtn.className = 'btn btn-danger btn-sm float-right Edit';
-        edtbtn.appendChild(document.createTextNode('Edit'));
-
-
-    let key = document.createElement('div');
-    key.style.display = 'none' ;
-    key.appendChild(document.createTextNode(count));
-
-
-    li.appendChild(key);
-    li.appendChild(document.createTextNode(form.children[1].value +" - " + form.children[3].value + " - " + form.children[5].value));
-    li.appendChild(btn);
-    li.appendChild(edtbtn)
-    
-    list.appendChild(li);    
+       
 };
 
 function removeItem(e){
@@ -56,14 +71,32 @@ function removeItem(e){
            
        
         console.log(li.firstChild.textContent) 
-        localStorage.removeItem(li.firstChild.textContent)
+
+        let url = "https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata/"
+
+        let fullurl = url.concat(li.firstChild.textContent)
+
+        console.log(fullurl)
+
+     axios.delete(fullurl)
+  .then(res =>{console.log(res)})
+  .catch(err=> console.log(err)); 
+
         
         list.removeChild(li);
     }
 
 }
 
+
+
+
+
 list.addEventListener('click' , edit )
+
+
+
+
 
 function edit(e){
 e.preventDefault();
@@ -72,38 +105,32 @@ e.preventDefault();
 if(e.target.classList.contains('Edit')){
         var lis = e.target.parentElement;
             console.log(lis.firstChild.textContent)
-        
-        myobjj = JSON.parse(localStorage.getItem(lis.firstChild.textContent))
 
-        
+            console.log(lis)
+let url = "https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata/"
+let fullurl = url.concat(lis.firstChild.textContent)
 
-        document.getElementById("expense").value = myobjj.Expense;
-        document.getElementById("description").value = myobjj.Description;
-        document.getElementById("category").value = myobjj.Category; 
-        localStorage.removeItem(lis.firstChild.textContent)
+axios.get(fullurl).then(obj =>{ 
+       console.log(obj) 
+    
+     document.getElementById("expense").value = obj.data.myObj.amount;
+     document.getElementById("description").value = obj.data.myObj.description;
+     document.getElementById("category").value = obj.data.myObj.category; 
+    
+}).catch(err=>console.log(err))
+
+axios.delete(fullurl)
+  .then(res =>{console.log(res)})
+  .catch(err=> console.log(err)); 
         
-        list.removeChild(lis);}
+list.removeChild(lis);}
 
 
 } 
 
 
  
- */
-
-console.log(printName());
-
-console.log(a);
+ 
 
 
-
-var a = 100;
-
-
-
-var printName = (name) => {
-
-console.log(name)
-
-}
 
