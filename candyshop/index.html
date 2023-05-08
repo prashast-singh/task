@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title >Candy Shop</title>
+</head>
+<body style="background-image: url(cool-background.png); background-size: cover;">
+  <header id="main-header" class="bg-info text-white p-4 mb-0">
+      <h1>Candy_Shop :-)  >~<</h1>
+  </header>
+  <div class="container" >
+   <div id="main" class="">
+    
+    <form id="addForm" class="form-inline form-control-sm card-title bg-secondary mt-1" >
+      
+        <label for="name" class="form-group  ml-2 mr-1" >Candy Name:</label>
+        <input type="text" class="form-group" id="name">
+
+        <label for="description" class="form-group ml-2 mr-1">Description: </label>
+        <input type="text" class="form-group" id="description">
+        
+        <label for="price" class="form-group ml-2 mr-1">Price: </label>
+        <input type="text" class="form-group" id="price">
+        
+        <label for="quantity" class="form-group ml-2 mr-1">Choose Quantity: </label>
+        <input type="text" class="form-group" id="quantity">
+      
+         <input type="submit" class="btn btn-outline-light bg-dark ml-1 form-group " value="Add">
+    </form>
+
+    <ul id="item">
+      
+    </ul>
+    </div>
+   
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
