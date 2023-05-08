@@ -3,9 +3,7 @@ let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 
 form.addEventListener('submit', addItem)
-axios.get('https://crudcrud.com/api/5e2db81a932d40eebe34304f1d3be095/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
- 
-
+axios.get('https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err));
 function displaylist(obj){
     console.log
     Object.keys(obj).forEach(key => {
@@ -56,7 +54,7 @@ function addItem(e){
     let str = JSON.stringify(myObj);
 
     console.log(str)
-    axios.post('https://crudcrud.com/api/5e2db81a932d40eebe34304f1d3be095/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
+    axios.post('https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
     
        
 };
@@ -70,22 +68,27 @@ function buyone(e){
  
         var li = e.target.parentElement;
         console.log(li.firstChild.textContent) 
-        let url = "https://crudcrud.com/api/5e2db81a932d40eebe34304f1d3be095/userdata/"
+        let url = "https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata/"
         let fullurl = url.concat(li.firstChild.textContent)
         console.log(fullurl)
 
          this.q = 0
          that = this;
-        axios.get(fullurl).then(obj =>{console.log(obj.data.myObj.quantity-1); 
+        axios.get(fullurl).then(obj =>{console.log(obj.data.myObj.quantity-1);
+            
+            
         
             axios.put(fullurl,{
-    
+           myObj : {
                 name: obj.data.myObj.name,
                 description : obj.data.myObj.description,
                 price : obj.data.myObj.price,
                 quantity : obj.data.myObj.quantity-1 ,
+           }
           
-        }).then()
+        }).then(
+            location.reload()
+        )
           .catch(err=> console.log(err))    
         
         }).catch(err=> console.log(err));
@@ -95,15 +98,15 @@ function buyone(e){
 }
 
 list.addEventListener('click' , buytwo )
-function buyone(e){
+function buytwo(e){
    
     
 
-    if(e.target.classList.contains('buyone')){
+    if(e.target.classList.contains('buytwo')){
  
         var li = e.target.parentElement;
         console.log(li.firstChild.textContent) 
-        let url = "https://crudcrud.com/api/5e2db81a932d40eebe34304f1d3be095/userdata/"
+        let url = "https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata/"
         let fullurl = url.concat(li.firstChild.textContent)
         console.log(fullurl)
 
@@ -113,12 +116,16 @@ function buyone(e){
         
             axios.put(fullurl,{
     
-                name: obj.data.myObj.name,
-                description : obj.data.myObj.description,
-                price : obj.data.myObj.price,
-                quantity : obj.data.myObj.quantity-2 ,
+                myObj : {
+                    name: obj.data.myObj.name,
+                    description : obj.data.myObj.description,
+                    price : obj.data.myObj.price,
+                    quantity : obj.data.myObj.quantity-2 ,
+               }
           
-        }).then()
+        }).then(
+            location.reload()
+        )
           .catch(err=> console.log(err))    
         
         }).catch(err=> console.log(err));
