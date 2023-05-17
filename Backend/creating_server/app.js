@@ -1,22 +1,28 @@
- 
+ const fs = require('fs');
 const http = require('http')
 const server = http.createServer((req,res)=>{
-    if(req.url==='/home'){
-        res.write('<body>Welcome Home</body>');
+    if(req.url==='/'){
+        const readMessage = fs.readFileSync('./message.txt','utf-8');
+        res.write(`<body><p>${readMessage}</p><form action ="/message" method="POST"><input type="text" name="message"></input><button type ="submit">submit</button></form></body>`);
         res.end()
         return res.end()  
     }
+if(req.url === '/message' && req.method==='POST'){
+    const body = [];
+    req.on('data', (splittedData)=>{
+        body.push(splittedData)
+    })
 
-    if(req.url==='/about'){
-        res.write('<body>Welcome to about us page</body>');
-        return res.end()  
-    }
-
-    if(req.url==='/node'){
-        res.write('<body>Welcome to my Node Js project</body>')
-        return res.end()  
-    }
-   
+    req.on('end', ()=>{
+        const parsedBody = Buffer.concat(body).toString();
+        const message = parsedBody.split('=')[1];
+        fs.writeFileSync('./message.txt', message);
+    })
+    
+    res.statusCode = 302;
+    res.setHeader('location','/');
+    return res.end();
+}
     res.write('<body>Default response</body>');
     res.end();
     
