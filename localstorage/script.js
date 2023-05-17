@@ -4,13 +4,13 @@ let list = document.getElementById('item');
 
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
-axios.get('https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
+axios.get('https://crudcrud.com/api/f8c4e0acbdca44238c557b43a2d99ea8/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
  
 
 function displaylist(obj){
     console.log
     Object.keys(obj).forEach(key => {
-       
+    
         let li =  document.createElement('li');
         li.className = 'mb-2'
     
@@ -56,7 +56,7 @@ function addItem(e){
     let str = JSON.stringify(myObj);
 
     console.log(str)
-    axios.post('https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
+    axios.post('https://crudcrud.com/api/f8c4e0acbdca44238c557b43a2d99ea8/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
     
        
 };
@@ -72,7 +72,7 @@ function removeItem(e){
        
         console.log(li.firstChild.textContent) 
 
-        let url = "https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata/"
+        let url = "https://crudcrud.com/api/f8c4e0acbdca44238c557b43a2d99ea8/userdata/"
 
         let fullurl = url.concat(li.firstChild.textContent)
 
@@ -107,7 +107,7 @@ if(e.target.classList.contains('Edit')){
             console.log(lis.firstChild.textContent)
 
             console.log(lis)
-let url = "https://crudcrud.com/api/1b3d06599bc54e62b6f140ec34e82ffb/userdata/"
+let url = "https://crudcrud.com/api/f8c4e0acbdca44238c557b43a2d99ea8/userdata/"
 let fullurl = url.concat(lis.firstChild.textContent)
 
 axios.get(fullurl).then(obj =>{ 

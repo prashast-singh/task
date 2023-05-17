@@ -3,7 +3,20 @@ let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 
 form.addEventListener('submit', addItem)
-axios.get('https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err));
+list.addEventListener('click' , buytwo )
+list.addEventListener('click' , buyone )
+
+ const displayitems = async ()=>{
+    const obj = await axios.get('https://crudcrud.com/api/f889a1ab23cd4a1580d3ccbdf008570f/userdata');
+    displaylist(obj.data)
+}
+
+
+displayitems()
+
+//axios.get('https://crudcrud.com/api/08dc5248e882495bbe93f1d5fa88bc79/userdata').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err));
+
+
 function displaylist(obj){
     console.log
     Object.keys(obj).forEach(key => {
@@ -41,7 +54,7 @@ function displaylist(obj){
 
 
 function addItem(e){
-    
+    e.preventDefault(); 
  
     
 
@@ -54,21 +67,22 @@ function addItem(e){
     let str = JSON.stringify(myObj);
 
     console.log(str)
-    axios.post('https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
+    axios.post('https://crudcrud.com/api/f889a1ab23cd4a1580d3ccbdf008570f/userdata',{myObj}).then(e =>displaylist(e)).catch(err => console.log(err))
     
+    location.reload()
        
 };
 
-list.addEventListener('click' , buyone )
+
 function buyone(e){
-   
+    e.preventDefault();
     
 
     if(e.target.classList.contains('buyone')){
  
         var li = e.target.parentElement;
         console.log(li.firstChild.textContent) 
-        let url = "https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata/"
+        let url = "https://crudcrud.com/api/f889a1ab23cd4a1580d3ccbdf008570f/userdata/"
         let fullurl = url.concat(li.firstChild.textContent)
         console.log(fullurl)
 
@@ -97,16 +111,16 @@ function buyone(e){
 
 }
 
-list.addEventListener('click' , buytwo )
+
 function buytwo(e){
    
-    
+    e.preventDefault(); 
 
     if(e.target.classList.contains('buytwo')){
  
         var li = e.target.parentElement;
         console.log(li.firstChild.textContent) 
-        let url = "https://crudcrud.com/api/317f6a6b813448d090d9cf5612799aa6/userdata/"
+        let url = "https://crudcrud.com/api/f889a1ab23cd4a1580d3ccbdf008570f/userdata/"
         let fullurl = url.concat(li.firstChild.textContent)
         console.log(fullurl)
 

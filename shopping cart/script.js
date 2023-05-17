@@ -8,10 +8,22 @@ let slist = document.getElementById('skinitem');
 console.log("iteml")
 
 
- axios.get('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/electronics').then(obj =>{ displayelist(obj.data)}).catch(err=>console.log(err))
-axios.get('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/food').then(obj =>{ displayflist(obj.data)}).catch(err=>console.log(err))  
- axios.get('https://crudcrud.com/api/c6916d756e54467395aab524bd9a8d7e/skin').then(obj =>{ displayslist(obj.data)}).catch(err=>console.log(err))
-   
+ /* axios.get('https://crudcrud.com/api/17a06bf4622645c2856d050521f2065f/electronics').then(obj =>{ displayelist(obj.data)}).catch(err=>console.log(err))
+ axios.get('https://crudcrud.com/api/17a06bf4622645c2856d050521f2065f/food').then(obj =>{ displayflist(obj.data)}).catch(err=>console.log(err))  
+ axios.get('https://crudcrud.com/api/17a06bf4622645c2856d050521f2065f/skin').then(obj =>{ displayslist(obj.data)}).catch(err=>console.log(err))
+  */
+ const displayitems = async ()=>{
+    const ele = await axios.get('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/electronics');
+    const foo = await axios.get('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/food');
+    const sk =  await axios.get('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/skin');
+    
+    displayelist(ele.data);
+    displayflist(foo.data);
+    displayslist(sk.data)
+
+}
+
+displayitems();
 
 form.addEventListener('submit', addItem)
 
@@ -32,17 +44,17 @@ function addItem(e){
     
     if(form.children[5].value === 'Electronic'){
         console.log("added")
-        axios.post('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/electronics',{myObj}).then(location.reload()).catch(err => console.log(err))
+        axios.post('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/electronics',{myObj}).then(location.reload()).catch(err => console.log(err))
   }
 
    if(form.children[5].value === 'Food'){
     console.log("added")
-    axios.post('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/food',{myObj}).then(location.reload()).catch(err => console.log(err))
+    axios.post('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/food',{myObj}).then(location.reload()).catch(err => console.log(err))
 } 
 
  if(form.children[5].value === 'Skincare'){
     console.log("added")
-    axios.post('https://crudcrud.com/api/c6916d756e54467395aab524bd9a8d7e/skin',{myObj}).then(location.reload()).catch(err => console.log(err))
+    axios.post('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/skin',{myObj}).then(location.reload()).catch(err => console.log(err))
 }  
 
     
@@ -62,7 +74,7 @@ function addItem(e){
     
         let ke = document.createElement('div');
          ke.style.display = 'none' ; 
-        ke.appendChild(document.createTextNode('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/electronics/' + obj[key]._id));
+        ke.appendChild(document.createTextNode('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/electronics/' + obj[key]._id));
     
     
         li.appendChild(ke);
@@ -94,7 +106,7 @@ function addItem(e){
     
         let ke = document.createElement('div');
          ke.style.display = 'none' ; 
-        ke.appendChild(document.createTextNode('https://crudcrud.com/api/c5a0229084cc47f6bed937bfbacbd140/food/' + obj[key]._id));
+        ke.appendChild(document.createTextNode('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/food/' + obj[key]._id));
     
     
         li.appendChild(ke);
@@ -123,7 +135,7 @@ function addItem(e){
     
         let ke = document.createElement('div');
          ke.style.display = 'none' ;
-        ke.appendChild(document.createTextNode('https://crudcrud.com/api/c6916d756e54467395aab524bd9a8d7e/skin/' + obj[key]._id));
+        ke.appendChild(document.createTextNode('https://crudcrud.com/api/df02551f289c4893a764ce93104719b4/skin/' + obj[key]._id));
     
     
         li.appendChild(ke);
@@ -159,11 +171,17 @@ function removeItem(e){
  
 
 
-     axios.delete(li.firstChild.textContent)
+     /* axios.delete(li.firstChild.textContent)
   .then(res =>{console.log(res); location.reload();})
-  .catch(err=> console.log(err)); 
+  .catch(err=> console.log(err));  */
 
+        const del = async ()=>{
+            obj = await axios.delete(li.firstChild.textContent);
+            console.log(obj);
+            location.reload();
+        }
         
+        del();
          
     }
 
