@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 
+
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
@@ -52,8 +53,11 @@ exports.postEditProduct = (req, res, next)=>{
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.prodId;
-  Product.deleteById(prodId);
-  res.redirect('/admin/products');
+  Product.deleteById(prodId)
+  .then(()=>{
+    res.redirect('/admin/products');
+  })
+  
 };
 
 
@@ -61,11 +65,14 @@ exports.postDeleteProduct = (req, res, next) => {
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
+  Product.fetchAll()
+  .then(([rows, fieldData])=>{
+    console.log(rows)
     res.render('admin/products', {
-      prods: products,
+      prods: rows,
       pageTitle: 'Admin Products',
       path: '/admin/products'
-    });
-  });
+    })
+
+  })
 };
