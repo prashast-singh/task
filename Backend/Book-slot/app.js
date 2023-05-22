@@ -1,26 +1,29 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
+const cors = require('cors')
+//const Appointment = require('./models/appointment')
+const sequelize = require('./helper/database')
 
 //root directory
-const rootDir = require('./helper/path')
-
+const rootDir = require("./helper/path")
 //routers
-const navbar = require('./routes/navbar')
-const contactus = require('./routes/contactus')
-const success = require('./routes/success')
+const adminRoutes = require('./routes/admin')
+const appointmentRoutes = require('./routes/appointment')
 
-const notfound = require('./controller/error')
 
 const app = express()
+app.use(cors())
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json({extended: false}))
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(navbar)
-app.use(contactus)
-app.use(success)
+app.use('/', adminRoutes)
+app.use(appointmentRoutes)
 
-
-app.use('/',notfound)
-
-app.listen(4000)
+sequelize.sync().then(result =>{
+    app.listen(4000);
+})
+.catch(err =>{
+    console.log(err)
+});
