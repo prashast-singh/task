@@ -1,6 +1,5 @@
 const User = require('../models/userModel')
-const { use } = require('../routes/loginRoute')
-
+const bcrypt = require('bcrypt')
 
 exports.postLogin = (req, res,next)=>{
    const email = req.body.myObj.email
@@ -15,13 +14,21 @@ exports.postLogin = (req, res,next)=>{
 
   User.findOne({where:{email: email}})
   .then(obj=>{
-   if(obj.password === password)
-   res.json({e:"login successfull", status: "true"})
-   
-   else{
-      res.status(401).json({e:"wrong password", status: "false"})
-  }
-}).catch(err => res.status(401).json({e:"account does not exist", status: "false"})) 
+
+    bcrypt.compare(password, obj.password).then((result)=> {
+      if(result === true)
+      res.json({e:"login successfull", status: "true"})
+     
+      else{
+        res.status(401).json({e:"wrong password", status: "false"})
+     }
+
+  });
+  
+}).catch(err => res.status(404).json({e:"account does not exist", status: "false"})) 
         
 
 }
+////////////////////
+
+
