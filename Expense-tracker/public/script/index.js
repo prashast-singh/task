@@ -14,5 +14,11 @@ function addUser(e){
             .then(e=> {
            location.reload()
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+             let errPara=   document.createElement('p');
+             errPara.appendChild(document.createTextNode("Error: " + err.response.data.err));
+             form.appendChild(errPara)
+            })
 }
+
+//JSON.stringify(err.response.data.err)
