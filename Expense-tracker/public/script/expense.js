@@ -4,7 +4,7 @@ let list = document.getElementById('item');
 let formButton = document.getElementById('SubmitBtn')
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
-axios.get('http://localhost:3000/expense').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
+axios.get('http://localhost:4000/expense').then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
  function displaylist(obj){
     Object.keys(obj).forEach(key => {
     
@@ -66,9 +66,10 @@ function addItem(e){
             category : form.children[5].value
             };
             let str = JSON.stringify();
-            axios.post('http://localhost:3000/expense',{myObj})
+            axios.post('http://localhost:4000/expense',{myObj})
             .then(e=> {
-            displaylist({myObj})
+            //form.appendChild(document.createTextNode({key: e.data}))
+            displaylist({key: e.data})
             })
             .catch(err => console.log(err))
             
@@ -83,7 +84,7 @@ function addItem(e){
             };
         let str = JSON.stringify();
 
-        axios.put('http://localhost:3000/expense',myObj).then(e=> location.reload()).catch(err => console.log(err))
+        axios.put('http://localhost:4000/expense',myObj).then(e=> location.reload()).catch(err => console.log(err))
         .then(e=> location.reload())
 
     }
@@ -100,13 +101,13 @@ function removeItem(e){
  
         var li = e.target.parentElement;
 
-axios.delete('http://localhost:3000/expense',{ data: {  id: li.firstChild.textContent } }  )
-  .then(e =>{list.removeChild(li);})
+axios.delete('http://localhost:4000/expense',{ data: {  id: li.firstChild.textContent } }  )
+  .then(e =>{location.reload()})
   .catch(err=> console.log(err)); 
  //   
 }}
 
-
+//list.removeChild(li)
 
 
 

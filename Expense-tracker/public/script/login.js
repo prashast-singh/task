@@ -11,9 +11,12 @@ function login(e){
 
     axios.post('http://localhost:4000/login',{myObj})
             .then(e=> {
-                let successPara=   document.createElement('p');
-                successPara.appendChild(document.createTextNode("Success: " + e.data.e));
-                form.appendChild(successPara)
+
+               
+                    window.location= e.data.e
+            //    let successPara=   document.createElement('p');
+             //   successPara.appendChild(document.createTextNode("Success: " + e.data.e));
+             //   form.appendChild(successPara)
             })
             .catch(e => {
              let errPara=   document.createElement('p');

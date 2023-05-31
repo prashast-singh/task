@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 //controllers
 const userRoute = require('./routes/userRoute')
 const loginRoute = require('./routes/loginRoute')
+const expenseRoute = require('./routes/expenseRoute')
 
 //database
 const sequelize = require('./helper/database')
@@ -18,15 +19,20 @@ app.use(bodyParser.json({extended: false}))
 //route middlewares
 app.use(loginRoute)
 app.use(userRoute)
+app.use(expenseRoute)
 
 //FRONTEND
 app.use(express.static(path.join(__dirname,'public','script')))
 
-
+app.use('/expenseview',(req,res,next)=>{
+   res.sendFile(path.join(__dirname, 'views', 'expense.html')) 
+})
 
 app.use('/', (req, res, next)=>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
 })
+
+
 
 
 

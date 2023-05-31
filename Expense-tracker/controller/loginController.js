@@ -16,8 +16,11 @@ exports.postLogin = (req, res,next)=>{
   .then(obj=>{
 
     bcrypt.compare(password, obj.password).then((result)=> {
-      if(result === true)
-      res.json({e:"login successfull", status: "true"})
+      if(result === true){
+     // res.redirect('/expenseview');
+     res.json({e:"/expenseview", status: "true"})
+      }
+      
      
       else{
         res.status(401).json({e:"wrong password", status: "false"})
