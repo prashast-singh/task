@@ -1,20 +1,29 @@
 const Expense = require('../models/expenseModel')
+const jwt = require('jsonwebtoken')
 
 exports.postExpense = (req, res, next)=>{
     const amount = req.body.myObj.amount;
     const description = req.body.myObj.description;
     const category = req.body.myObj.category;
+    const token = req.body.myObj.authorization;
+    const userId =  jwt.verify(token, 'shhhhh')
+
     Expense.create({
         amount : amount,
         description : description,
         category : category,
+        userId: userId.userId
     }).then(e=>{
         res.json(e)}).catch(err => console.log(err))  
     }
     
     
 exports.getExpense = (req, res, next)=>{
-    Expense.findAll().then(expense => res.json(expense)).catch(err=> console.log(err))
+    const token = req.headers.authorization
+    
+   const userId =  jwt.verify(token, 'shhhhh')
+   
+    Expense.findAll({where:{userId: userId.userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
     }
 
  exports.putExpense = (req, res, next)=>{

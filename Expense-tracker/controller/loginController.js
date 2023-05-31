@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 exports.postLogin = (req, res,next)=>{
    const email = req.body.myObj.email
@@ -15,10 +16,14 @@ exports.postLogin = (req, res,next)=>{
   User.findOne({where:{email: email}})
   .then(obj=>{
 
-    bcrypt.compare(password, obj.password).then((result)=> {
+    bcrypt.compare(password, obj.password).then(async (result)=> {
       if(result === true){
-     // res.redirect('/expenseview');
-     res.json({e:"/expenseview", status: "true"})
+
+      var token = jwt.sign({ userId: obj.id}, 'shhhhh');
+
+      
+     console.log(token)
+     res.json({e:"/expenseview", status: "true", token: token})
       }
       
      

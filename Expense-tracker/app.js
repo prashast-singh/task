@@ -9,6 +9,10 @@ const userRoute = require('./routes/userRoute')
 const loginRoute = require('./routes/loginRoute')
 const expenseRoute = require('./routes/expenseRoute')
 
+//models
+const User = require("./models/userModel")
+const Expense = require("./models/expenseModel")
+
 //database
 const sequelize = require('./helper/database')
 const app = express()
@@ -22,7 +26,7 @@ app.use(userRoute)
 app.use(expenseRoute)
 
 //FRONTEND
-app.use(express.static(path.join(__dirname,'public','script')))
+/* app.use(express.static(path.join(__dirname,'public','script')))
 
 app.use('/expenseview',(req,res,next)=>{
    res.sendFile(path.join(__dirname, 'views', 'expense.html')) 
@@ -30,12 +34,13 @@ app.use('/expenseview',(req,res,next)=>{
 
 app.use('/', (req, res, next)=>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
-})
+}) */
 
 
 
 
-
+User.hasMany(Expense)
+Expense.belongsTo(User)
 
 
 // listen on port
