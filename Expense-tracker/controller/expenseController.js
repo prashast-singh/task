@@ -5,28 +5,44 @@ exports.postExpense = (req, res, next)=>{
     const amount = req.body.myObj.amount;
     const description = req.body.myObj.description;
     const category = req.body.myObj.category;
-    const token = req.body.myObj.authorization;
-    const userId =  jwt.verify(token, 'shhhhh')
+  //  const token = req.body.myObj.authorization;
+   // const userId =  jwt.verify(token, 'shhhhh')
 
-    Expense.create({
+   req.user.createExpense({
+        amount : amount,
+        description : description,
+        category : category,
+
+   })
+   .then(e=>{
+    res.json(e)})
+    .catch(err => console.log(err))
+
+   /*  Expense.create({
         amount : amount,
         description : description,
         category : category,
         userId: userId.userId
     }).then(e=>{
-        res.json(e)}).catch(err => console.log(err))  
+        res.json(e)}).catch(err => console.log(err))   */
+    
+    
     }
     
     
 exports.getExpense = (req, res, next)=>{
-    const token = req.headers.authorization
+    //const token = req.headers.authorization
     
-   const userId =  jwt.verify(token, 'shhhhh')
+   //const userId =  jwt.verify(token, 'shhhhh')
+   const userId = req.user.id
    
-    Expense.findAll({where:{userId: userId.userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
+    //Expense.findAll({where:{userId: userId.userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
+    Expense.findAll({where:{userId: userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
+
     }
 
- exports.putExpense = (req, res, next)=>{
+ 
+    exports.putExpense = (req, res, next)=>{
     const id = req.body.id;
     const updatedAmount = req.body.amount;
     const updatedDescription = req.body.description;

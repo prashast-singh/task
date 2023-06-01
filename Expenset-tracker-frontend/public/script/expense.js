@@ -6,9 +6,42 @@ form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
 let token = localStorage.getItem("token")
 
+document.getElementById("rzp-button1").onclick = async function(e){
+    const response = await axios.get('http://localhost:4000/premium', {headers:{"authorization": token}})
+    console.log(response)
+
+     var options ={
+        "key": response.data.key_id,
+        "order_id": response.data.order.id,
+
+        "handler": async (response)=>{
+            await axios.post('http://localhost:4000/premium',{
+                order_id: options.order_id,
+                payment_id: response.razorpay_payment_id,
+            },{headers:{"authorization": token}})
+
+           alert('you are premium user now')  
+        }
+
+    }
+    
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+
+    rzp1.on('payment.failed', async function(response){
+        await axios.post('http://localhost:4000/paymentfailure',{
+                order_id: options.order_id,
+            },{headers:{"authorization": token}})
+        
+            alert("Transaction failed")
+    })
+}
+
 axios.get('http://localhost:4000/expense', {headers:{"authorization": token}})
 .then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
- function displaylist(obj){
+ 
+function displaylist(obj){
     Object.keys(obj).forEach(key => {
     
         let li =  document.createElement('li');
@@ -67,10 +100,10 @@ function addItem(e){
             amount: form.children[1].value,
             description : form.children[3].value,
             category : form.children[5].value,
-            authorization: token
+           // authorization: token
             };
             let str = JSON.stringify();
-            axios.post('http://localhost:4000/expense',{myObj})
+            axios.post('http://localhost:4000/expense',{myObj},{headers:{"authorization": token} })
             .then(e=> {
             //form.appendChild(document.createTextNode({key: e.data}))
             displaylist({key: e.data})
