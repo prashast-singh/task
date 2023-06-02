@@ -1,37 +1,33 @@
 const Expense = require('../models/expenseModel')
-const jwt = require('jsonwebtoken')
-
-exports.postExpense = (req, res, next)=>{
+const Sequelize = require('../helper/database');
+exports.postExpense = async (req, res, next)=>{
     const amount = req.body.myObj.amount;
     const description = req.body.myObj.description;
     const category = req.body.myObj.category;
-  //  const token = req.body.myObj.authorization;
-   // const userId =  jwt.verify(token, 'shhhhh')
-   const user = req.user;
+    const user = req.user;
+   
+ const t = await Sequelize.transaction();
 
-
-   req.user.createExpense({
+   try{
+   const expense =  await req.user.createExpense({
         amount : amount,
         description : description,
         category : category,
-
-   })
-   .then(async(e)=>{
-
-    user.totalExpense += parseInt (amount)
-    await user.save()
-
-    res.json(e)})
-    .catch(err => console.log(err))
-
-   /*  Expense.create({
-        amount : amount,
-        description : description,
-        category : category,
-        userId: userId.userId
-    }).then(e=>{
-        res.json(e)}).catch(err => console.log(err))   */
-    
+        
+   },{ transaction: t })
+   
+  
+   user.totalExpense += parseInt (amount)
+        await user.save({ transaction: t })
+        await t.commit();
+        res.json(expense)
+    }
+    catch(error){
+        await t.rollback();
+        res.status(401).json({success: false})
+        throw new Error(JSON.stringify(error))
+    }
+ 
     
     }
     
