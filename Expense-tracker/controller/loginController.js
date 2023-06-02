@@ -23,7 +23,7 @@ exports.postLogin = (req, res,next)=>{
 
       
      console.log(token)
-     res.json({e:"/expenseview", status: "true", token: token})
+     res.json({e:"/expenseview", status: "true", token: token, premiumUser: obj.premiumUser})
       }
       
      

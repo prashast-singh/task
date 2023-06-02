@@ -2,9 +2,45 @@
 let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 let formButton = document.getElementById('SubmitBtn')
+
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
+list.addEventListener('click' , edit )
+document.addEventListener('click', leaderboard)
+
 let token = localStorage.getItem("token")
+let premiumUser = localStorage.getItem("premiumUser")
+
+function leaderboard(e){
+    if(e.target.classList.contains('leaderboard')){
+        location.reload()
+        const getLeaderboard = async()=>{
+        const response = await axios.get('http://localhost:4000/leaderboard', {headers:{"authorization": token}})
+        console.log(response)
+        list.parentNode.appendChild(document.createTextNode("LEADERBOARD"))
+        let ul = document.createElement('ul')
+
+        const leaderboard = response.data.leaderboard
+
+        for(let i = 0; i<leaderboard.length; i++){
+            let li = document.createElement('li')
+            li.appendChild(document.createTextNode(leaderboard[i][0] + " " + leaderboard[i][1]))
+            ul.appendChild(li)
+        }
+        
+        list.parentNode.appendChild(ul)
+
+    }
+    getLeaderboard();
+    
+
+}
+
+}
+
+
+
+
 
 document.getElementById("rzp-button1").onclick = async function(e){
     const response = await axios.get('http://localhost:4000/premium', {headers:{"authorization": token}})
@@ -38,8 +74,27 @@ document.getElementById("rzp-button1").onclick = async function(e){
     })
 }
 
+if(premiumUser==="true"){
+    var premiumButton = document.getElementById("rzp-button1")
+    
+    let p = document.createElement('div')
+    let premiumMessage = document.createTextNode('Congrats! You are a premium user now')
+    p.appendChild(premiumMessage)
+
+    btn = document.createElement('button');
+    btn.className = 'btn btn-danger btn-sm float-right delete ml-2 leaderboard';
+    btn.id = "leaderboardBtn"
+    btn.appendChild(document.createTextNode('Show Leaderboard'));
+    
+   premiumButton.parentNode.appendChild(btn)
+   premiumButton.parentNode.appendChild(p)
+   premiumButton.parentNode.removeChild(premiumButton) 
+}
+
 axios.get('http://localhost:4000/expense', {headers:{"authorization": token}})
 .then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
+
+
  
 function displaylist(obj){
     Object.keys(obj).forEach(key => {
@@ -87,7 +142,7 @@ function displaylist(obj){
 
       });
  
-
+      
 
 };
 
@@ -148,7 +203,7 @@ axios.delete('http://localhost:4000/expense',{ data: {  id: li.firstChild.textCo
 
 
 
-list.addEventListener('click' , edit )
+
 function edit(e){
 e.preventDefault();
 if(e.target.classList.contains('Edit')){

@@ -1,6 +1,7 @@
 const Razorpay = require('razorpay');
 const Order = require('../models/orderModel');
-
+const User = require('../models/userModel')
+const Expense = require('../models/expenseModel')
 
 exports.purchasePremium = async(req, res) =>{
      try{ 
@@ -47,5 +48,39 @@ exports.updateFailure = async (req, res, next)=>{
     const order = await Order.findOne({where: {orderid: order_id}})
     await order.update({status: "FAILED"})
     res.status(201).json({message: "payment failed"})
+}
+
+
+exports.getLeaderboard = async(req, res, next)=>{
+    const user = await User.findAll({include: Expense})
+    let array = []
+
+    for(let i = 0 ; i<user.length; i++){
+     let totalExpense = 0;
+     {
+        for(let j = 0; j<user[i].expenses.length; j++){
+            totalExpense+= user[i].expenses[j].amount
+        }
+
+        array.push([totalExpense, user[i].name])
+
+        console.log("total expense of " + JSON.stringify(user[i].name) + "is" + totalExpense)
+     }
+    }
+
+    array.sort(sortFunction);
+
+function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] > b[0]) ? -1 : 1;
+    }
+}
+
+console.log(array)
+
+res.json({leaderboard: array})
 
 }

@@ -14,6 +14,8 @@ function login(e){
 
                if(e.data.e==="/expenseview"){
                 localStorage.setItem('token', e.data.token)
+                localStorage.setItem('premiumUser', e.data.premiumUser)
+
                 window.location= "./expense.html"
                }
              
