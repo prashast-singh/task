@@ -2,6 +2,7 @@
 let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 let formButton = document.getElementById('SubmitBtn')
+let leaderboardDiv = document.getElementById('leaderboradDiv')
 
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
@@ -13,22 +14,29 @@ let premiumUser = localStorage.getItem("premiumUser")
 
 function leaderboard(e){
     if(e.target.classList.contains('leaderboard')){
-        location.reload()
+        
         const getLeaderboard = async()=>{
         const response = await axios.get('http://localhost:4000/leaderboard', {headers:{"authorization": token}})
         console.log(response)
-        list.parentNode.appendChild(document.createTextNode("LEADERBOARD"))
+
+        let leaderboardDivChild =  leaderboardDiv.childElementCount;
+
+        if(leaderboardDivChild>0){
+            leaderboardDiv.removeChild(leaderboardDiv.children[1])
+        }
+
+        leaderboardDiv.appendChild(document.createTextNode("LEADERBOARD"))
         let ul = document.createElement('ul')
 
         const leaderboard = response.data.leaderboard
 
         for(let i = 0; i<leaderboard.length; i++){
             let li = document.createElement('li')
-            li.appendChild(document.createTextNode(leaderboard[i][0] + " " + leaderboard[i][1]))
+            li.appendChild(document.createTextNode(leaderboard[i][1] + " " + leaderboard[i][0]))
             ul.appendChild(li)
         }
         
-        list.parentNode.appendChild(ul)
+        leaderboardDiv.appendChild(ul)
 
     }
     getLeaderboard();
@@ -161,7 +169,8 @@ function addItem(e){
             axios.post('http://localhost:4000/expense',{myObj},{headers:{"authorization": token} })
             .then(e=> {
             //form.appendChild(document.createTextNode({key: e.data}))
-            displaylist({key: e.data})
+           // displaylist({key: e.data})
+           location.reload()
             })
             .catch(err => console.log(err))
             
