@@ -175,7 +175,7 @@ function addItem(e){
            // displaylist({key: e.data})
            location.reload()
             })
-            .catch(err => console.log(err))
+            .catch(err => alert("something went wrong"))
             
     }
 
