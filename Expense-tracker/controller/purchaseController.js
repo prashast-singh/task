@@ -7,8 +7,8 @@ exports.purchasePremium = async(req, res) =>{
      try{ 
 
          var rzp  = new Razorpay({
-                key_id: 'rzp_test_h8bXjaaUFmCz3s',
-                key_secret: 'EKDSpziSPcFdqtbTxYJ3LD8W'
+                key_id: 'rzp_test_iQuNG5THAQLRFH',
+                key_secret: 'I2cAhT8g40IowFyeKh5LYGKz'
     
     
             })
@@ -52,23 +52,28 @@ exports.updateFailure = async (req, res, next)=>{
 
 
 exports.getLeaderboard = async(req, res, next)=>{
-    const user = await User.findAll({include: Expense})
-    let array = []
+    
+    // using joins const user = await User.findAll({include: Expense})
+
+    const user = await User.findAll({
+        attributes: ['name', 'totalExpense']
+      });
+
+      console.log(user)
+
+
+    
+       let array = []
 
     for(let i = 0 ; i<user.length; i++){
-     let totalExpense = 0;
-     {
-        for(let j = 0; j<user[i].expenses.length; j++){
-            totalExpense+= user[i].expenses[j].amount
-        }
 
-        array.push([totalExpense, user[i].name])
-
-        console.log("total expense of " + JSON.stringify(user[i].name) + "is" + totalExpense)
+        array.push([user[i].totalExpense, user[i].name])
      }
-    }
+    
+     console.log(array)
+ 
 
-    array.sort(sortFunction);
+     array.sort(sortFunction);
 
 function sortFunction(a, b) {
     if (a[0] === b[0]) {
@@ -81,6 +86,6 @@ function sortFunction(a, b) {
 
 console.log(array)
 
-res.json({leaderboard: array})
+res.json({leaderboard: array}) 
 
 }

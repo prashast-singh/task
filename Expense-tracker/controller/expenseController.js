@@ -7,6 +7,8 @@ exports.postExpense = (req, res, next)=>{
     const category = req.body.myObj.category;
   //  const token = req.body.myObj.authorization;
    // const userId =  jwt.verify(token, 'shhhhh')
+   const user = req.user;
+
 
    req.user.createExpense({
         amount : amount,
@@ -14,7 +16,11 @@ exports.postExpense = (req, res, next)=>{
         category : category,
 
    })
-   .then(e=>{
+   .then(async(e)=>{
+
+    user.totalExpense += parseInt (amount)
+    await user.save()
+
     res.json(e)})
     .catch(err => console.log(err))
 

@@ -64,7 +64,10 @@ document.getElementById("rzp-button1").onclick = async function(e){
                 payment_id: response.razorpay_payment_id,
             },{headers:{"authorization": token}})
 
+        localStorage.setItem('premiumUser', "true")
+
            alert('you are premium user now')  
+           location.reload()
         }
 
     }
