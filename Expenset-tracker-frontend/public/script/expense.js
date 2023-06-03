@@ -87,19 +87,45 @@ document.getElementById("rzp-button1").onclick = async function(e){
 
 if(premiumUser==="true"){
     var premiumButton = document.getElementById("rzp-button1")
-    
+
     let p = document.createElement('div')
     let premiumMessage = document.createTextNode('Congrats! You are a premium user now')
     p.appendChild(premiumMessage)
-
+    
+    let b = document.createElement('div')
     btn = document.createElement('button');
-    btn.className = 'btn btn-danger btn-sm float-right delete ml-2 leaderboard';
+    btn.className = 'btn btn-sm btn-danger float-right  leaderboard';
     btn.id = "leaderboardBtn"
     btn.appendChild(document.createTextNode('Show Leaderboard'));
+    b.appendChild(btn)
     
-   premiumButton.parentNode.appendChild(btn)
+   premiumButton.parentNode.appendChild(b)
    premiumButton.parentNode.appendChild(p)
-   premiumButton.parentNode.removeChild(premiumButton) 
+   premiumButton.parentNode.removeChild(premiumButton)
+   
+   let weeklyButton = document.createElement("button")
+   weeklyButton.className = 'btn btn-sm btn-danger float-right  weeklyButton ml-2';
+   weeklyButton.appendChild(document.createTextNode('Show Weekly'))
+
+   let monthlyButton = document.createElement("button")
+   monthlyButton.className = 'btn btn-sm btn-danger float-right  monthlyButton ml-2';
+   monthlyButton.appendChild(document.createTextNode('Show Monthly'))
+   
+   let downloadButton = document.createElement("button")
+   downloadButton.className = 'btn btn-sm btn-danger float-right  downloadButton ml-2';
+   downloadButton.appendChild(document.createTextNode('Download Report'))
+
+   var premiumFeatureDiv = document.getElementById('premiumFeatures')
+   premiumFeatureDiv.appendChild(downloadButton)
+   premiumFeatureDiv.appendChild(monthlyButton)
+   premiumFeatureDiv.appendChild(weeklyButton)
+
+    premiumFeatureDiv.addEventListener("click",(e)=>{
+    if(e.target.classList.contains('monthlyButton')){
+     location.href= './monthlyTable.html'
+    }
+   }) 
+
 }
 
 axios.get('http://localhost:4000/expense', {headers:{"authorization": token}})
@@ -145,7 +171,7 @@ function displaylist(obj){
             category.appendChild(document.createTextNode(obj[key].category))
             li.appendChild(category)
 
-        li.appendChild(document.createTextNode(obj[key].amount +" - " + obj[key].description + " - " + obj[key].category));
+        li.appendChild(document.createTextNode("Rs."+obj[key].amount +"- " + obj[key].description + " - " + obj[key].category));
         li.appendChild(btn);
         li.appendChild(edtbtn)
         

@@ -4,6 +4,8 @@ const router = express.Router()
 const authorization = require('../middleware/authMiddleware')
 
 
+router.get('/expense/monthly', authorization, expenseController.monthlyExpense)
+
 router.post('/expense',authorization, expenseController.postExpense)
 
 router.get('/expense', authorization, expenseController.getExpense)

@@ -2,6 +2,8 @@ const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+
+
 exports.postLogin = (req, res,next)=>{
    const email = req.body.myObj.email
    const password = req.body.myObj.password
@@ -38,5 +40,4 @@ exports.postLogin = (req, res,next)=>{
 
 }
 ////////////////////
-
 

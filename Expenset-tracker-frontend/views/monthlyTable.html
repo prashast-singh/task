@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title >Monthly Expense</title>
+</head>
+<body>
+  <header id="main-header" class="bg-success text-white p-4 mb-3">
+      <h2 style="display:inline-block">Expense Tracker</h2>
+      <button onclick="location.href='./expense.html'" type=”button” style="float: right;" class="btn">
+        Home
+      </button>
+  </header>
+  <div class="container">
+    
+    <div id="main" class="card card-body bg-light" style="width: 80ch; margin: 0 auto; float: none; margin-bottom: 10px; ">
+        <h4  style="margin: 0 auto; float: none; margin-bottom: 10px;">Monthly Expense</h4>
+
+        <form id="monthForm" class="form-control-sm ">
+            <label for="month" class="form-control-label mt-2 "> Month</label>
+            <select name="month" class="form-control ml-2" id="month">
+                <option value="Jan">January</option>
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="Apr">April</option>
+                <option value="May">May</option>
+                <option value="Jun">June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Nov">November</option>
+                <option value="Dec">December</option>
+            </select>
+    
+            <!-- <input type="hidden" class="form-control ml-2" id="expenseId" name="id"> -->
+          
+            <button type="button" id='SubmitBtn' class="btn btn-dark btn-outline-dark mt-2 ml-2 getDetails">Get Details</button>
+       </form>
+       <ul id="list">
+
+       </ul>
+        
+    </div>
+   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="../public/script/monthlyTable.js"></script>
+</body>
+</html>

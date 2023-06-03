@@ -71,6 +71,32 @@ exports.deleteExpense = (req, res, next) =>{
 
 
 
+exports.monthlyExpense = async(req, res, next)=>{
+    const userId = req.user.id
+    console.log(req.headers.month)
+ let expense =  await Expense.findAll({where:{userId: userId}})
+    let expenseArry = []
+    for(let i = 0; i<expense.length; i++){
+       console.log(expense[i].updatedAt.toString().split(" ")[1]) 
+       console.log(expense[i].updatedAt)
+      if(expense[i].updatedAt.toString().split(" ")[1] === req.headers.month){
+        expenseArry.push({
+            id: expense[i].id,
+            amount: expense[i].amount,
+            description: expense[i].description,
+            category: expense[i].category,
+            month: expense[i].updatedAt.toString().split(" ")[1]
+        })
+      }
+    
+    } 
+    console.log(expenseArry)
+    res.status(201).json(expenseArry)
+}
+
+
+
+
     
 
     

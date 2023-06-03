@@ -9,17 +9,19 @@
 </head>
 <body>
   <header id="main-header" class="bg-success text-white p-4 mb-3">
-      <h1 style="display:inline-block">Expense Tracker</h1>
+      <h2 style="display:inline-block">Expense Tracker</h2>
       <button id="rzp-button1" style="float: right;">Buy Premium</button>
-
+      <a href="./login.html" style="float: right; color: aliceblue; margin-right: 0.5rem;">Login</a>
   </header>
   <div class="container">
    <div id="main" class="card card-body bg-light" >
-    
+    <div id="premiumFeatures">
+      
+    </div>
     <form id="addForm" class="form-control-sm " method="POST" action="" >
       
         <label for="Amount" class="form-control-label" >Amount</label>
-        <input type="text" class="form-control ml-2" id="amount" name="Amount" >
+        <input type="number" class="form-control ml-2" id="amount" name="Amount" >
 
         <label for="Description" class="form-control-label mt-2 " >Description </label>
         <input type="text" class="form-control ml-2" id="description" name="description" >
@@ -37,12 +39,15 @@
       
         <input type="submit" class="btn btn-dark btn-outline-dark mt-2 ml-2 SubmitButton" value="Submit" id="SubmitBtn">
     </form>
-    <a href="./login.html">login</a>
+    
 
     <ul id="item">
       
     </ul>
     <div id = "leaderboradDiv">
+
+    </div>
+    <div id ="monthly">
 
     </div>
     </div>

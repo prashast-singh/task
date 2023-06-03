@@ -33,3 +33,7 @@ function login(e){
 }
 
 //JSON.stringify(err.response.data.err)
+
+document.getElementById('forgotPassword').onclick = (e)=>{
+    window.location= "./forgotPassword.html"
+}
