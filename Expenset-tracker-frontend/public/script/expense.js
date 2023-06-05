@@ -124,7 +124,14 @@ if(premiumUser==="true"){
     if(e.target.classList.contains('monthlyButton')){
      location.href= './monthlyTable.html'
     }
-   }) 
+
+    if(e.target.classList.contains('weeklyButton')){
+        location.href= './weeklyTable.html'
+       }
+   
+
+
+}) 
 
 }
 

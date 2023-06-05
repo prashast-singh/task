@@ -1,5 +1,7 @@
 const Expense = require('../models/expenseModel')
 const Sequelize = require('../helper/database');
+const  {Op}  = require('sequelize');
+
 exports.postExpense = async (req, res, next)=>{
     const amount = req.body.myObj.amount;
     const description = req.body.myObj.description;
@@ -76,23 +78,89 @@ exports.monthlyExpense = async(req, res, next)=>{
     console.log(req.headers.month)
  let expense =  await Expense.findAll({where:{userId: userId}})
     let expenseArry = []
+    let weeklyExpense = []
+    let week =[]
     for(let i = 0; i<expense.length; i++){
-       console.log(expense[i].updatedAt.toString().split(" ")[1]) 
-       console.log(expense[i].updatedAt)
       if(expense[i].updatedAt.toString().split(" ")[1] === req.headers.month){
+        
         expenseArry.push({
             id: expense[i].id,
             amount: expense[i].amount,
             description: expense[i].description,
             category: expense[i].category,
-            month: expense[i].updatedAt.toString().split(" ")[1]
+            month: expense[i].updatedAt.toString().split(" ")[1],
+            date:   expense[i].updatedAt.toString().split(" ")[2]
         })
       }
     
-    } 
-    console.log(expenseArry)
-    res.status(201).json(expenseArry)
+    }
+   res.status(201).json(expenseArry)
+    
 }
+
+exports.weeklyExpense = async(req, res, next)=>{
+    const userId = req.user.id
+   
+  ////////////// 
+  
+    var week = parseInt(req.headers.week);
+    var month = parseInt(req.headers.month);
+    var year = 2023;
+    console.log("week"+ week)
+    console.log("month"+month)
+    var PositiveOneDay = new Date(new Date('1/2/2000') - new Date('1/1/2000'));
+    var NegetiveOneDay = new Date(new Date('1/1/2000') - new Date('1/2/2000'));      
+    var dt , stDate , endDate
+    //Get first day of month
+    dt = new Date(month + '/1/' + year);
+    //Seek to intended week
+    var i = 1;
+    for(i = 1 ; i < (week-1)*7 ; i++){
+        dt = new Date(dt - NegetiveOneDay);
+    }  
+    //if found date is week end get immediate next week start date
+    while (dt.getDay() == 0 || dt.getDay() == 6){
+        dt = new Date(dt - NegetiveOneDay);
+    }   
+    //if found date is in next month then invalid input
+    if (dt.getMonth() == month - 1){
+        stDate = dt;
+        endDate = dt;
+        //Seek to week start date
+        while (stDate.getDay() != 0)
+        {
+            stDate = new Date(stDate - PositiveOneDay);
+        }
+        //Seek to week end date
+        while (endDate.getDay() != 6)
+        {
+            endDate = new Date(endDate - NegetiveOneDay);
+        }
+                      
+      console.log('Starting date of a week : ' + stDate.toString());
+      
+      
+      console.log('Ending date of a week : ' + endDate.toString());
+
+      Expense.findAll({where : { updatedAt : {[Op.between] : [stDate  ,endDate]}, userId: userId  }})
+.then((result) => { 
+    console.log(result)
+    res.status(201).json(result)
+})
+.catch((error) =>  console.log(error))
+
+      
+      
+      
+
+    }      
+    else{
+        alert('Invalid Input');
+    } 
+    
+}
+
+
 
 
 
