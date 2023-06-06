@@ -16,6 +16,7 @@ const User = require("./models/userModel")
 const Expense = require("./models/expenseModel")
 const Order = require('./models/orderModel')
 const Forgotpassword = require('./models/forgotPassword');
+const Url = require('./models/urlModel')
 
 //database
 const sequelize = require('./helper/database')
@@ -52,6 +53,9 @@ Order.belongsTo(User)
 
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
+
+User.hasMany(Url)
+Url.belongsTo(User)
 
 
 // listen on port

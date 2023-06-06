@@ -128,6 +128,26 @@ if(premiumUser==="true"){
     if(e.target.classList.contains('weeklyButton')){
         location.href= './weeklyTable.html'
        }
+
+    if(e.target.classList.contains('downloadButton')){
+        axios.get('http://localhost:4000/download', {headers:{"authorization": token}})
+        .then((response) => {
+            if(response.status === 200){
+                //the bcakend is essentially sending a download link
+                //  which if we open in browser, the file would download
+                 var a = document.createElement("a");
+                a.href = response.data.fileURL;
+                a.download = 'myexpense.csv';
+                a.click(); 
+              //  document.write(JSON.stringify(response))
+            } else {
+                throw new Error(response.data.message)
+            }
+    
+        }).catch(err=>console.log(err))
+       }
+
+    
    
 
 
