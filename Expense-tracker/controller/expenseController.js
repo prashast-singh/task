@@ -210,8 +210,8 @@ exports.weeklyExpense = async(req, res, next)=>{
 
 function uploadToS3(data, filename){
 const BUCKET_NAME = 'prashastexpensetracker'
-const I_AM_USER_KEY ='AKIAWOJXDLI2TEAXIUNJ'
-const I_AM_USER_SECRET = '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'
+const I_AM_USER_KEY =''
+const I_AM_USER_SECRET = ''
 let s3bucket = new AWS.S3({
     accessKeyId: I_AM_USER_KEY,
     secretAccessKey: I_AM_USER_SECRET,
