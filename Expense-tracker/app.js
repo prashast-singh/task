@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const fs = require('fs')
+require('dotenv').config()
 //route
 const userRoute = require('./routes/userRoute')
 const loginRoute = require('./routes/loginRoute')
@@ -31,7 +32,6 @@ app.use(cors())
 app.use(helmet())
 app.use(morgan('combined', {stream: accessLogs}))
 app.use(bodyParser.json({extended: false}))
-const dotenv = require('dotenv');
 //route middlewares
 app.use(loginRoute)
 app.use(userRoute)

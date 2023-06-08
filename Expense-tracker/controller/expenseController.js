@@ -5,7 +5,7 @@ const  {Op}  = require('sequelize');
 const AWS = require('aws-sdk');
 const { response } = require('express');
 const UrlHistory = require('../models/urlModel')
-
+require('dotenv').config()
 exports.history = (req, res, next)=>{
     userId = req.user.id
 
@@ -210,8 +210,8 @@ exports.weeklyExpense = async(req, res, next)=>{
 
 function uploadToS3(data, filename){
 const BUCKET_NAME = 'prashastexpensetracker'
-const I_AM_USER_KEY =''
-const I_AM_USER_SECRET = ''
+const I_AM_USER_KEY =process.env.AWS_USER_KEY
+const I_AM_USER_SECRET = process.env.AWS_USER_SECRET
 let s3bucket = new AWS.S3({
     accessKeyId: I_AM_USER_KEY,
     secretAccessKey: I_AM_USER_SECRET,
