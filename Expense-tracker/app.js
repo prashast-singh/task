@@ -3,7 +3,9 @@ const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-
+const helmet = require('helmet')
+const morgan = require('morgan')
+const fs = require('fs')
 //route
 const userRoute = require('./routes/userRoute')
 const loginRoute = require('./routes/loginRoute')
@@ -22,7 +24,12 @@ const Url = require('./models/urlModel')
 const sequelize = require('./helper/database')
 const app = express()
 
+const accessLogs = fs.createWriteStream(path.join(__dirname, 'access.log'),
+{flags: 'a'});
+
 app.use(cors())
+app.use(helmet())
+app.use(morgan('combined', {stream: accessLogs}))
 app.use(bodyParser.json({extended: false}))
 const dotenv = require('dotenv');
 //route middlewares
