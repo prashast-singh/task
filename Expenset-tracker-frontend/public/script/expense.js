@@ -3,6 +3,7 @@ let form = document.getElementById('addForm');
 let list = document.getElementById('item');
 let formButton = document.getElementById('SubmitBtn')
 let leaderboardDiv = document.getElementById('leaderboradDiv')
+let  pagination = document.getElementById('pagination')
 
 form.addEventListener('submit', addItem)
 list.addEventListener('click', removeItem)
@@ -115,15 +116,24 @@ if(premiumUser==="true"){
    downloadButton.className = 'btn btn-sm btn-danger float-right  downloadButton ml-2';
    downloadButton.appendChild(document.createTextNode('Download Report'))
 
+   let historyButton = document.createElement("button")
+   historyButton.className = 'btn btn-sm btn-danger float-right  historyButton ml-2';
+   historyButton.appendChild(document.createTextNode('Download History'))
+   
    var premiumFeatureDiv = document.getElementById('premiumFeatures')
+   premiumFeatureDiv.appendChild(historyButton)
    premiumFeatureDiv.appendChild(downloadButton)
    premiumFeatureDiv.appendChild(monthlyButton)
    premiumFeatureDiv.appendChild(weeklyButton)
 
     premiumFeatureDiv.addEventListener("click",(e)=>{
+
     if(e.target.classList.contains('monthlyButton')){
-     location.href= './monthlyTable.html'
-    }
+            location.href= './monthlyTable.html'
+        }    
+    if(e.target.classList.contains('historyButton')){
+     location.href= './historyTable.html'
+        }
 
     if(e.target.classList.contains('weeklyButton')){
         location.href= './weeklyTable.html'
@@ -148,19 +158,26 @@ if(premiumUser==="true"){
        }
 
     
-   
+       if(e.target.classList.contains('historyButton')){
+        location.href= './historyTable.html'
+       }
 
 
 }) 
 
 }
 
-axios.get('http://localhost:4000/expense', {headers:{"authorization": token}})
-.then(obj =>{ displaylist(obj.data)}).catch(err=>console.log(err))
+let pageno = 1;
+axios.get(`http://localhost:4000/expense?pageno=${pageno}`, {headers:{"authorization": token, "pageno":pageno}})
+.then(obj =>{ displaylist(obj.data.expense, obj.data.hasNext, obj.data.hasPrevious)}).catch(err=>console.log(err))
 
 
  
-function displaylist(obj){
+function displaylist(obj, hasNext, hasPrevious){
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    
     Object.keys(obj).forEach(key => {
     
         let li =  document.createElement('li');
@@ -202,12 +219,56 @@ function displaylist(obj){
         li.appendChild(btn);
         li.appendChild(edtbtn)
         
-        list.appendChild(li); 
+        list.appendChild(li);
+        
+        
+        
 
       });
- 
-      
+      if(hasNext==='true'){
+        
+     
+        let nxtbtn =  document.createElement('button')
+        nxtbtn.appendChild(document.createTextNode('next page'))
+        nxtbtn.className = ' float-right next ml-2';
+        pagination.appendChild(nxtbtn)
+   
+   
+         nxtbtn.onclick = ()=>{
+          pageno = pageno+1
+           axios.get(`http://localhost:4000/expense?pageno=${pageno}`, {headers:{"authorization": token, "pageno":pageno}})
+           .then(obj =>{ 
+               
+               while (pagination.firstChild) {
+                   pagination.removeChild(pagination.firstChild);
+               }
+               displaylist(obj.data.expense, obj.data.hasNext, obj.data.hasPrevious)}).catch(err=>console.log(err))
+   
+        } 
+          
+         }
 
+      if(hasPrevious==='true'){
+        
+     
+        let prevbtn =  document.createElement('button')
+        prevbtn.appendChild(document.createTextNode('previous page'))
+        prevbtn.className = ' float-right previous ml-2';
+        pagination.appendChild(prevbtn)
+   
+   
+         prevbtn.onclick = ()=>{
+          pageno = pageno-1
+           axios.get(`http://localhost:4000/expense?pageno=${pageno}`, {headers:{"authorization": token, "pageno":pageno}})
+           .then(obj =>{ 
+            while (pagination.firstChild) {
+                pagination.removeChild(pagination.firstChild);
+            }
+               displaylist(obj.data.expense, obj.data.hasNext, obj.data.hasPrevious)}).catch(err=>console.log(err))
+   
+        } 
+          
+         }
 };
 
 

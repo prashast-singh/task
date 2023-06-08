@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title >Monthly Expense</title>
+</head>
+<body>
+  <header id="main-header" class="bg-success text-white p-4 mb-3">
+      <h2 style="display:inline-block">Expense Tracker</h2>
+      <button onclick="location.href='./expense.html'" type=”button” style="float: right;" class="btn">
+        Home
+      </button>
+  </header>
+  <div class="container">
+    
+    <div id="main" class="card card-body bg-light" style="width: 80ch; margin: 0 auto; float: none; margin-bottom: 10px; ">
+        <h4  style="margin: 0 auto; float: none; margin-bottom: 10px;">Download History</h4>
+
+        
+       <ul id="list">
+
+       </ul>
+        
+    </div>
+   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="../public/script/history.js"></script>
+</body>
+</html>

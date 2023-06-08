@@ -4,6 +4,23 @@ const Sequelize = require('../helper/database');
 const  {Op}  = require('sequelize');
 const AWS = require('aws-sdk');
 const { response } = require('express');
+const UrlHistory = require('../models/urlModel')
+
+exports.history = (req, res, next)=>{
+    userId = req.user.id
+
+    UrlHistory.findAll({where:{userId: userId}}).then(obj=>{
+        res.status(200).json(obj)
+    }).catch(err=>{
+        console.log(err)
+    })
+
+}
+
+
+
+
+
 exports.postExpense = async (req, res, next)=>{
     const amount = req.body.myObj.amount;
     const description = req.body.myObj.description;
@@ -41,9 +58,38 @@ exports.getExpense = (req, res, next)=>{
     
    //const userId =  jwt.verify(token, 'shhhhh')
    const userId = req.user.id
-   
+   console.log(req.query)
+
     //Expense.findAll({where:{userId: userId.userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
-    Expense.findAll({where:{userId: userId}}).then(expense => res.json(expense)).catch(err=> console.log(err))
+    Expense.findAll({where:{userId: userId}})
+    .then(expense => 
+        {  if(req.query.pageno==='1'){
+            console.log(expense.length)
+            if(expense.length <=5 )
+            {res.json({"expense":expense, "hasNext": "false", "hasPrevious":"false"})}
+            else{
+             let paginatedExpense = expense.slice(0,5)
+                 res.json({"expense":paginatedExpense, "hasNext": "true", "hasPrevious":"false"})
+            }
+
+        }
+        else{
+           let end = 5*parseInt(req.query.pageno)
+           let start = end-5
+           let paginatedExpense = expense.slice(start,end)
+           if(end>=expense.length){
+            res.json({"expense":paginatedExpense, "hasNext": "false", "hasPrevious":"true"})
+           }
+           else{
+            res.json({"expense":paginatedExpense, "hasNext": "true", "hasPrevious":"true"})
+           }
+          
+           
+           
+        }
+           }
+        
+        ).catch(err=> console.log(err))
 
     }
 
